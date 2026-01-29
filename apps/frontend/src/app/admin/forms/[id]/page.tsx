@@ -45,7 +45,7 @@ export default function FormDetailPage({
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">{form.name}</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">{form.name}</h1>
         <div className="flex gap-2">
           <button
             onClick={() => setShowJson(!showJson)}
@@ -99,41 +99,41 @@ export default function FormDetailPage({
       ) : (
         <>
           <div className="bg-white dark:bg-card-dark rounded-lg shadow p-6 mb-6">
-            <p className="text-slate-600 dark:text-slate-400 mb-2">
+            <p className="text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
               <strong>Key:</strong> {form.key}
             </p>
-            <p className="text-slate-600 dark:text-slate-400 mb-2">
+            <p className="text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
               <strong>Version:</strong> {form.version}
             </p>
-            <p className="text-slate-600 dark:text-slate-400">
+            <p className="text-slate-600 dark:text-slate-400 text-slate-900 dark:text-slate-100">
               <strong>Steps:</strong> {form.steps?.length || 0}
             </p>
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold mb-4">Steps</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-slate-900 dark:text-slate-100">Steps</h2>
             {form.steps?.map((step) => (
               <div
                 key={step.id}
                 className="bg-white dark:bg-card-dark rounded-lg shadow p-6"
               >
-                <h3 className="text-lg font-semibold mb-2">{step.key}</h3>
+                <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-100">{step.key}</h3>
                 <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
                   Type: {step.type}
                 </p>
                 {step.prompt && (
-                  <p className="text-slate-700 dark:text-slate-300 mb-4">
+                  <p className="text-slate-700 dark:text-slate-300 mb-4 text-slate-900 dark:text-slate-100">
                     {step.prompt}
                   </p>
                 )}
                 {step.options && step.options.length > 0 && (
                   <div className="mt-4">
-                    <p className="font-medium mb-2">Options:</p>
+                    <p className="font-medium mb-2 text-slate-900 dark:text-slate-100">Options:</p>
                     <ul className="list-disc list-inside space-y-1">
                       {step.options.map((option) => (
                         <li
                           key={option.id}
-                          className="text-slate-600 dark:text-slate-400"
+                          className="text-slate-600 dark:text-slate-400 text-slate-900 dark:text-slate-100"
                         >
                           {option.label} ({option.value})
                         </li>
@@ -143,12 +143,12 @@ export default function FormDetailPage({
                 )}
                 {step.branches && step.branches.length > 0 && (
                   <div className="mt-4">
-                    <p className="font-medium mb-2">Branch Rules:</p>
+                    <p className="font-medium mb-2 text-slate-900 dark:text-slate-100">Branch Rules:</p>
                     <ul className="list-disc list-inside space-y-1">
                       {step.branches.map((branch) => (
                         <li
                           key={branch.id}
-                          className="text-slate-600 dark:text-slate-400 text-sm"
+                          className="text-slate-600 dark:text-slate-400 text-sm text-slate-900 dark:text-slate-100"
                         >
                           {branch.operator} - {branch.endResult || branch.nextStepId ? 'Active' : 'Inactive'}
                         </li>

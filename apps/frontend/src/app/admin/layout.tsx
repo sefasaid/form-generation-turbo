@@ -46,12 +46,12 @@ export default function AdminLayout({
   const user = getUser() as User;
 
   return (
-    <div className="min-h-screen bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark text-base w-full">
+    <div className="min-h-screen bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 text-base w-full">
       <div className="flex">
         {/* Sidebar */}
         <aside className="w-64 bg-white dark:bg-card-dark border-r border-slate-200 dark:border-slate-700 min-h-screen flex flex-col">
           <div className="p-6 flex-1">
-            <h2 className="text-2xl font-bold mb-8">Admin Panel</h2>
+            <h2 className="text-2xl font-bold mb-8 text-slate-900 dark:text-slate-100">Admin Panel</h2>
             <nav className="space-y-2">
               <Link
                 href="/admin"
@@ -75,13 +75,13 @@ export default function AdminLayout({
           </div>
           <div className="p-6 border-t border-slate-200 dark:border-slate-700">
             {!!user && (
-              <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
                 {user.username}
               </p>
             )}
             <button
               onClick={handleLogout}
-              className="w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+              className="w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors text-slate-900 dark:text-slate-100"
             >
               Logout
             </button>
@@ -89,7 +89,7 @@ export default function AdminLayout({
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-8">{children}</main>
+        <main className="flex-1 p-8 bg-background-light dark:bg-background-dark">{children}</main>
       </div>
     </div>
   );

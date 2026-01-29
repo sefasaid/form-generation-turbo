@@ -34,7 +34,7 @@ export default function SessionsPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Answers (Sessions)</h1>
+      <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Answers (Sessions)</h1>
       <div className="grid gap-4">
         {sessions.map((session) => (
           <Link
@@ -43,7 +43,7 @@ export default function SessionsPage() {
             className="block p-6 bg-white dark:bg-card-dark rounded-lg shadow hover:shadow-lg transition-shadow"
           >
             <div className="flex justify-between items-start mb-2">
-              <h2 className="text-xl font-semibold">
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
                 {session.form?.name || 'Unknown Form'} Version {session.form?.version || 'Unknown'}
               </h2>
               <span
@@ -57,15 +57,15 @@ export default function SessionsPage() {
                 {session.status}
               </span>
             </div>
-            <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
+            <p className="text-slate-600 dark:text-slate-400 text-sm mb-2 text-slate-900 dark:text-slate-100">
               Session ID: {session.id}
             </p>
             {session.result && (
-              <p className="text-slate-500 dark:text-slate-500 text-xs mb-2">
+              <p className="text-slate-500 dark:text-slate-500 text-xs mb-2 text-slate-900 dark:text-slate-100">
                 Result: {session.result}
               </p>
             )}
-            <p className="text-slate-500 dark:text-slate-500 text-xs">
+            <p className="text-slate-500 dark:text-slate-500 text-xs text-slate-900 dark:text-slate-100">
               {session.answers?.length || 0} answers | Created:{' '}
               {new Date(session.createdAt).toLocaleDateString()}
             </p>

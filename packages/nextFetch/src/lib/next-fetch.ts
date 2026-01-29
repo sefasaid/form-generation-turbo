@@ -16,7 +16,6 @@ export const fetchData = async <T = unknown>(
     'Content-Type': 'application/json',
   };
 
-  // Admin URL'leri için token zorunlu
   if (isAdmin) {
     if (!token) {
       if (typeof window !== 'undefined') {
@@ -26,7 +25,6 @@ export const fetchData = async <T = unknown>(
     }
     headers['Authorization'] = `Bearer ${token}`;
   } else if (token) {
-    // Normal URL'ler için token opsiyonel
     headers['Authorization'] = `Bearer ${token}`;
   }
 
@@ -41,7 +39,6 @@ export const fetchData = async <T = unknown>(
     body: data ? JSON.stringify(data) : undefined,
   });
 
-  // Admin URL'leri için 401 hatasında login'e yönlendir
   if (isAdmin && response.status === 401) {
     if (typeof window !== 'undefined') {
       window.location.href = '/admin/login';

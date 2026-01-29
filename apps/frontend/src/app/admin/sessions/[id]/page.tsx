@@ -43,55 +43,55 @@ export default function SessionDetailPage({
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Session Details</h1>
+      <h1 className="text-3xl font-bold mb-6 text-slate-900 dark:text-slate-100">Session Details</h1>
       <div className="bg-white dark:bg-card-dark rounded-lg shadow p-6 mb-6">
-        <p className="text-slate-600 dark:text-slate-400 mb-2">
+        <p className="text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
           <strong>Form:</strong> {session.form?.name || 'Unknown'}
         </p>
-        <p className="text-slate-600 dark:text-slate-400 mb-2">
+        <p className="text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
           <strong>Form Version:</strong> {session.form?.version || 'Unknown'}
         </p>
-        <p className="text-slate-600 dark:text-slate-400 mb-2">
+        <p className="text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
           <strong>Status:</strong> {session.status}
         </p>
         {session.result && (
-          <p className="text-slate-600 dark:text-slate-400 mb-2">
+          <p className="text-slate-600 dark:text-slate-400 mb-2 text-slate-900 dark:text-slate-100">
             <strong>Result:</strong> {session.result}
           </p>
         )}
         {session.resultReasons && session.resultReasons.length > 0 && (
           <div className="mb-2">
-            <strong>Reasons:</strong>
+            <strong className="text-slate-900 dark:text-slate-100">Reasons:</strong>
             <ul className="list-disc list-inside mt-1">
               {session.resultReasons.map((reason, idx) => (
-                <li key={idx} className="text-slate-600 dark:text-slate-400">
+                <li key={idx} className="text-slate-600 dark:text-slate-400 text-slate-900 dark:text-slate-100">
                   {reason}
                 </li>
               ))}
             </ul>
           </div>
         )}
-        <p className="text-slate-600 dark:text-slate-400">
+        <p className="text-slate-600 dark:text-slate-400 text-slate-900 dark:text-slate-100">
           <strong>Created:</strong> {new Date(session.createdAt).toLocaleString()}
         </p>
       </div>
 
       <div className="space-y-4">
-        <h2 className="text-2xl font-semibold mb-4">Answers</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-slate-900 dark:text-slate-100">Answers</h2>
         {session.answers && session.answers.length > 0 ? (
           session.answers.map((answer) => (
             <div
               key={answer.id}
               className="bg-white dark:bg-card-dark rounded-lg shadow p-6"
             >
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-lg font-semibold mb-2 text-slate-900 dark:text-slate-100">
                 {answer.step?.key || 'Unknown Step'}
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm mb-2">
+              <p className="text-slate-600 dark:text-slate-400 text-sm mb-2 text-slate-900 dark:text-slate-100">
                 Step Type: {answer.step?.type}
               </p>
               <div className="mt-2">
-                <strong>Answer:</strong>
+                <strong className="text-slate-900 dark:text-slate-100"    >Answer:</strong>
                 <pre className="mt-1 p-3 bg-slate-100 dark:bg-slate-800 rounded text-sm overflow-auto">
                   {JSON.stringify(answer.value, null, 2)}
                 </pre>
@@ -99,7 +99,7 @@ export default function SessionDetailPage({
             </div>
           ))
         ) : (
-          <p className="text-slate-500">No answers yet</p>
+          <p className="text-slate-500 text-slate-900 dark:text-slate-100">No answers yet</p>
         )}
       </div>
     </div>

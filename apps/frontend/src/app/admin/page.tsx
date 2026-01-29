@@ -35,7 +35,7 @@ export default function AdminPage() {
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Forms</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Forms</h1>
         <Link
           href="/admin/forms/create"
           className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-600 transition-colors"
@@ -51,10 +51,10 @@ export default function AdminPage() {
             className="block p-6 bg-white dark:bg-card-dark rounded-lg shadow hover:shadow-lg transition-shadow"
           >
             <h2 className="text-xl font-semibold mb-2">{form.name}</h2>
-            <p className="text-slate-600 dark:text-slate-400 text-sm">
+            <p className="text-slate-600 dark:text-slate-400 text-sm text-slate-900 dark:text-slate-100">
               Key: {form.key} | Version: {form.version}
             </p>
-            <p className="text-slate-500 dark:text-slate-500 text-xs mt-2">
+            <p className="text-slate-500 dark:text-slate-500 text-xs mt-2 text-slate-900 dark:text-slate-100">
               {form.steps?.length || 0} steps
             </p>
           </Link>

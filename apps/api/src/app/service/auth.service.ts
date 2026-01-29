@@ -33,7 +33,9 @@ export class AuthService {
         };
 
         return {
-            token: this.jwtService.sign(payload),
+            token: await this.jwtService.signAsync(payload, {
+                secret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
+            }),
             user: {
                 id: user.id,
                 username: user.username,
@@ -45,7 +47,9 @@ export class AuthService {
 
     async verifyToken(token: string): Promise<User> {
         try {
-            const decoded = this.jwtService.verify(token, { secret: process.env.JWT_SECRET || 'your-secret-key-change-in-production' });
+            const decoded = await this.jwtService.verifyAsync(token, {
+                secret: process.env.JWT_SECRET || 'your-secret-key-change-in-production',
+            });
             if (!decoded.sub || !decoded.username) {
                 throw new UnauthorizedException('Invalid token payload');
             }

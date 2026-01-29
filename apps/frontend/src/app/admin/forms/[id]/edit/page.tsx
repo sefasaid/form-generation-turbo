@@ -99,24 +99,24 @@ export default function FormEditPage({
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Edit Form: {form.name}</h1>
+        <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Edit Form: {form.name}</h1>
         <div className="flex gap-2">
           <button
             onClick={handleFormat}
-            className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+            className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors text-slate-900 dark:text-slate-100"
           >
             Format JSON
           </button>
           <button
             onClick={() => router.back()}
-            className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors"
+            className="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors text-slate-900 dark:text-slate-100"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
             disabled={saving || !!jsonError}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-slate-900 dark:text-slate-100"
           >
             {saving ? 'Saving...' : 'Save Form'}
           </button>
@@ -125,14 +125,14 @@ export default function FormEditPage({
 
       {jsonError && (
         <div className="mb-4 p-4 bg-red-100 dark:bg-red-900/20 border border-red-300 dark:border-red-700 rounded-lg">
-          <p className="text-red-800 dark:text-red-200 font-semibold">JSON Error:</p>
+          <p className="text-red-800 dark:text-red-200 font-semibold text-slate-900 dark:text-slate-100">JSON Error:</p>
           <p className="text-red-600 dark:text-red-300 text-sm">{jsonError}</p>
         </div>
       )}
 
       <div className="bg-white dark:bg-card-dark rounded-lg shadow">
         <div className="p-4 border-b border-slate-200 dark:border-slate-700">
-          <h2 className="text-lg font-semibold">JSON Editor</h2>
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100 ">JSON Editor</h2>
           <p className="text-sm text-slate-600 dark:text-slate-400 mt-1">
             Edit the form JSON below. Make sure the JSON is valid before saving.
           </p>

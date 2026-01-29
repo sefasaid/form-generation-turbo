@@ -342,7 +342,7 @@ export default function CreateFormPage() {
     return (
       <div>
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Create Form (JSON Mode)</h1>
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">Create Form (JSON Mode)</h1>
           <div className="flex gap-2">
             <button
               onClick={loadSampleJson}
@@ -651,10 +651,10 @@ export default function CreateFormPage() {
                   {/* Branches */}
                   <div className="mt-4">
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="font-semibold">Branches</h4>
+                      <h4 className="font-semibold text-slate-900 dark:text-slate-100">Branches</h4>
                       <button
                         onClick={() => addBranch(stepIndex)}
-                        className="px-3 py-1 bg-primary text-white rounded hover:bg-indigo-600 transition-colors text-sm"
+                        className="px-3 py-1 bg-primary text-white rounded hover:bg-indigo-600 transition-colors text-sm text-slate-900 dark:text-slate-100"
                       >
                         + Add Branch
                       </button>
@@ -664,11 +664,11 @@ export default function CreateFormPage() {
                         {step.branches.map((branch, branchIndex) => (
                           <div
                             key={branchIndex}
-                            className="p-3 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700"
+                            className="p-3 bg-slate-50 dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100"
                           >
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
                               <div>
-                                <label className="block text-xs font-medium mb-1">Operator</label>
+                                <label className="block text-xs font-medium mb-1 text-slate-900 dark:text-slate-100">Operator</label>
                                 <select
                                   value={branch.operator}
                                   onChange={(e) => updateBranch(stepIndex, branchIndex, { operator: e.target.value as Operator })}
@@ -682,7 +682,7 @@ export default function CreateFormPage() {
                                 </select>
                               </div>
                               <div>
-                                <label className="block text-xs font-medium mb-1">Compare Value</label>
+                                <label className="block text-xs font-medium mb-1 text-slate-900 dark:text-slate-100">Compare Value</label>
                                 <input
                                   type="text"
                                   value={typeof branch.compareValue === 'string' ? branch.compareValue : JSON.stringify(branch.compareValue)}
@@ -700,7 +700,7 @@ export default function CreateFormPage() {
                                 />
                               </div>
                               <div>
-                                <label className="block text-xs font-medium mb-1">Next Step Key</label>
+                                <label className="block text-xs font-medium mb-1 text-slate-900 dark:text-slate-100">Next Step Key</label>
                                 <select
                                   value={branch.nextStepKey || ''}
                                   onChange={(e) => updateBranch(stepIndex, branchIndex, { nextStepKey: e.target.value || null })}
@@ -717,7 +717,7 @@ export default function CreateFormPage() {
                                 </select>
                               </div>
                               <div>
-                                <label className="block text-xs font-medium mb-1">End Result</label>
+                                <label className="block text-xs font-medium mb-1 text-slate-900 dark:text-slate-100">End Result</label>
                                 <select
                                   value={branch.endResult || ''}
                                   onChange={(e) => updateBranch(stepIndex, branchIndex, { endResult: (e.target.value as EvaluationResult) || null })}
@@ -732,7 +732,7 @@ export default function CreateFormPage() {
                                 </select>
                               </div>
                               <div className="md:col-span-2">
-                                <label className="block text-xs font-medium mb-1">End Reason</label>
+                                <label className="block text-xs font-medium mb-1 text-slate-900 dark:text-slate-100">End Reason</label>
                                 <input
                                   type="text"
                                   value={branch.endReason || ''}
@@ -742,7 +742,7 @@ export default function CreateFormPage() {
                                 />
                               </div>
                               <div>
-                                <label className="block text-xs font-medium mb-1">Priority</label>
+                                <label className="block text-xs font-medium mb-1 text-slate-900 dark:text-slate-100">Priority</label>
                                 <input
                                   type="number"
                                   value={branch.priority || 0}
@@ -753,7 +753,7 @@ export default function CreateFormPage() {
                             </div>
                             <button
                               onClick={() => removeBranch(stepIndex, branchIndex)}
-                              className="mt-2 px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-sm"
+                              className="mt-2 px-2 py-1 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-sm text-slate-900 dark:text-slate-100"
                             >
                               Remove Branch
                             </button>
@@ -761,7 +761,7 @@ export default function CreateFormPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-slate-500 dark:text-slate-400 text-sm">No branches yet.</p>
+                      <p className="text-slate-500 dark:text-slate-400 text-sm text-slate-900 dark:text-slate-100">No branches yet.</p>
                     )}
                   </div>
                 </div>

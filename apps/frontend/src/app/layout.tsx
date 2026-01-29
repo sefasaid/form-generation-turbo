@@ -5,6 +5,7 @@ import { Manrope } from 'next/font/google'
 import { useEffect, useState } from 'react';
 import { createContext } from 'react';
 import SideImage from './components/side-image';
+import { usePathname } from 'next/navigation';
 //eslint-disable-next-line
 export const SideImageContext = createContext<{ sideImage: string, setSideImage: (sideImage: string) => void }>({ sideImage: '', setSideImage: () => { } });
 const manrope = Manrope({
@@ -17,6 +18,8 @@ export default function RootLayout({
 }) {
 
   const [sideImage, setSideImage] = useState<string>('');
+  const pathname = usePathname();
+  const adminPath = pathname.includes('/admin');
   useEffect(() => {
     setSideImage(Math.random().toString());
   }, []);
@@ -30,7 +33,7 @@ export default function RootLayout({
               <div className="w-full h-full flex flex-col justify-center bg-white dark:bg-card-dark items-center min-h-screen md:min-h-0">
                 {children}
               </div>
-              {sideImage && <SideImage randomImage={sideImage} />}
+              {sideImage && !adminPath && <SideImage randomImage={sideImage} />}
             </div>
           </SideImageContext.Provider>
         </main>

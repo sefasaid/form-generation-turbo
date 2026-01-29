@@ -248,3 +248,133 @@ cd packages/prisma && yarn studio
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Prisma Documentation](https://www.prisma.io/docs)
 
+
+# Docker
+
+## 🐳 Docker Build
+
+This project includes Docker support for containerized deployments. The Dockerfile uses a multi-stage build process to optimize image size and build time.
+
+### Building the API Image
+
+Build the Docker image for the API:
+
+```bash
+docker build -f Dockerfile.api -t formgenerate-api:latest --build-arg DATABASE_URL="postgresql://user:password@host:5432/database" .
+```
+
+**Important:** Replace the `DATABASE_URL` with your actual database connection string.
+
+### Build Process
+
+The Dockerfile uses a multi-stage build:
+
+1. **Builder Stage:**
+   - Installs all dependencies (including dev dependencies)
+   - Generates Prisma Client
+   - Runs database migrations
+   - Builds the NestJS API
+
+2. **Production Stage:**
+   - Copies only production dependencies
+   - Copies the built application and generated Prisma Client
+   - Creates a minimal production image
+
+### Running the Container
+
+Run the containerized API:
+
+```bash
+docker run -p 3001:3001 \
+  -e DATABASE_URL="postgresql://user:password@host:5432/database" \
+  -e JWT_SECRET="your-secret-key" \
+  formgenerate-api:latest
+```
+
+### Environment Variables
+
+The following environment variables can be set when running the container:
+
+- `DATABASE_URL` - PostgreSQL database connection string (required)
+- `JWT_SECRET` - Secret key for JWT token signing (required)
+- `API_PORT` - Port for the API server (default: 3001)
+- `NODE_ENV` - Node environment (default: production)
+
+### Docker Compose
+
+The project includes a `docker-compose.yml` file that sets up both the API and Frontend services.
+
+#### Setup
+
+1. **Copy the environment file:**
+   ```bash
+   cp env.example .env
+   ```
+
+2. **Edit `.env` file** and configure the following variables:
+   ```env
+   DATABASE_URL="postgresql://user:password@host:5432/database"
+   NEXT_PUBLIC_API_URL="http://localhost:3001"
+   API_PORT=3001
+   FRONTEND_PORT=3000
+   JWT_SECRET="your-secret-key"
+   NODE_ENV=production
+   API_CONTAINER_NAME=form-api
+   FRONTEND_CONTAINER_NAME=form-frontend
+   ```
+
+#### Running Services
+
+Start all services (API and Frontend):
+
+```bash
+docker-compose up
+```
+
+Start in detached mode (background):
+
+```bash
+docker-compose up -d
+```
+
+Stop all services:
+
+```bash
+docker-compose down
+```
+
+Rebuild and start services:
+
+```bash
+docker-compose up --build
+```
+
+#### Services
+
+The Docker Compose setup includes:
+
+- **API** - NestJS backend service (port 3001)
+- **Frontend** - Next.js frontend service (port 3000)
+
+Both services are connected via a Docker network (`form-network`) and the frontend depends on the API service.
+
+#### Viewing Logs
+
+View logs from all services:
+
+```bash
+docker-compose logs
+```
+
+View logs from a specific service:
+
+```bash
+docker-compose logs api
+docker-compose logs frontend
+```
+
+Follow logs in real-time:
+
+```bash
+docker-compose logs -f
+```

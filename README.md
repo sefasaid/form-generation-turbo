@@ -378,3 +378,14 @@ Follow logs in real-time:
 ```bash
 docker-compose logs -f
 ```
+
+
+# Addetional Info
+
+## Prisma Type Generator
+
+I crated a prisma type generator for frontend. That way api and frontend can type safe. I tried to use prisma (when it generates, it generates browser type as well) but it didn't work for me. That's why I made prisma type generator only for frontend.
+
+## Live preview
+
+You can check preview from [here](form-generation-turbo-frontend.vercel.app)

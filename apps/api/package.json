@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prebuild": "turbo run build --filter=@repo/prisma",
+    "prebuild": "test -f ../../packages/prisma/dist/index.js && echo 'Prisma already built, skipping...' || (test -f ../../turbo.json && turbo run build --filter=@repo/prisma || echo 'Skipping prebuild')",
     "build": "nest build",
     "predev": "turbo run build --filter=@repo/prisma",
     "dev": "nest start --watch",

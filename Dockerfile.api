@@ -15,6 +15,7 @@ COPY packages/prisma-client-types/package.json ./packages/prisma-client-types/
 
 RUN yarn install --frozen-lockfile
 
+COPY turbo.json ./
 COPY apps/api ./apps/api
 COPY packages/prisma ./packages/prisma
 COPY packages/prisma-client-types ./packages/prisma-client-types
@@ -22,10 +23,17 @@ COPY packages/typescript-config ./packages/typescript-config
 
 ARG DATABASE_URL
 ENV DATABASE_URL=${DATABASE_URL}
+
+# Generate Prisma client
 RUN cd packages/prisma && yarn generate
 
+# Build Prisma package (needed for @repo/prisma imports)
+RUN cd packages/prisma && yarn build
+
+# Run migrations
 RUN cd packages/prisma && yarn migrate:deploy || true
 
+# Build API (prebuild will skip since turbo.json exists but prisma is already built)
 RUN cd apps/api && yarn build
 
 FROM base AS runner

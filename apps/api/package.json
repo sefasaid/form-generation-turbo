@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "prebuild": "turbo run build --filter=@repo/prisma",
     "build": "nest build",
     "predev": "turbo run build --filter=@repo/prisma",
     "dev": "nest start --watch",
@@ -20,6 +21,7 @@
     "@nestjs/passport": "^11.0.0",
     "@nestjs/platform-socket.io": "^11.1.12",
     "@nestjs/websockets": "^11.1.12",
+    "@repo/prisma": "*",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "bcrypt": "^6.0.0",

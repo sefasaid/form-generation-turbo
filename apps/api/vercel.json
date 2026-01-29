@@ -1,0 +1,5 @@
+{
+    "buildCommand": "cd ../.. && yarn build --filter=@repo/api",
+    "outputDirectory": "dist",
+    "installCommand": "cd ../.. && yarn install"
+}

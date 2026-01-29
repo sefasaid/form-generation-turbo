@@ -389,3 +389,15 @@ I crated a prisma type generator for frontend. That way api and frontend can typ
 ## Live preview
 
 You can check preview from [here](form-generation-turbo-frontend.vercel.app)
+
+## Socket.io
+
+I use socket.io to enable real-time synchronization when the same session is opened in multiple tabs or on different machines. To accomplish this, I capture the socket ID and send it along with the save answer POST request.
+
+## Form Versions
+
+I created a version system to ensure that old answers remain accessible even after form updates.
+
+## Security
+
+I acknowledge that CORS is currently set to allow all origins (`*`), but this is intentional for a demo project. CORS can be properly configured for production use later.

@@ -1,0 +1,26 @@
+{
+  "name": "@repo/prisma-client-types",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Custom Prisma generator for client-side TypeScript types",
+  "main": "generator.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "prisma",
+    "generator",
+    "typescript",
+    "client"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/generator-helper": "^5.0.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -1,135 +1,250 @@
-# Turborepo starter
+# Form Generation
 
-This Turborepo starter is maintained by the Turborepo core team.
+A modern monorepo application built with Turborepo, featuring a NestJS API backend and a Next.js frontend. This project enables dynamic form creation and management with real-time capabilities.
 
-## Using this example
+## 🏗️ Architecture
 
-Run the following command:
+This is a **Turborepo** monorepo containing:
 
-```sh
-npx create-turbo@latest
+- **API** (`apps/api`) - NestJS backend with Prisma ORM
+- **Frontend** (`apps/frontend`) - Next.js 16 application
+- **Frontend E2E** (`apps/frontend-e2e`) - Cypress end-to-end tests
+- **Prisma** (`packages/prisma`) - Database schema and migrations
+- **NextFetch** (`packages/nextFetch`) - Shared fetch utilities
+- **ESLint Config** (`packages/eslint-config`) - Shared linting rules
+- **TypeScript Config** (`packages/typescript-config`) - Shared TypeScript configurations
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js >= 18
+- Yarn 1.22.22
+- PostgreSQL database
+
+### Installation
+
+Install all dependencies for the monorepo:
+
+```bash
+yarn install
 ```
 
-## What's inside?
+This will install dependencies for all packages and applications in the workspace.
 
-This Turborepo includes the following packages/apps:
+### Environment Setup
 
-### Apps and Packages
+Copy the example environment file and configure your variables:
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+cp env.example .env
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+Edit `.env` and set the following variables:
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/database"
+NEXT_PUBLIC_API_URL="http://localhost:3001"
+API_PORT=3001
+JWT_SECRET="your-secret-key"
 ```
 
-### Develop
+## 💻 Development
 
-To develop all apps and packages, run the following command:
+### Before Starting Services
 
-```
-cd my-turborepo
+Both the frontend and backend depend on Prisma Client being generated. Turborepo should automatically run `prisma generate` before starting services (as configured in `turbo.json`), but if you encounter any issues, you can manually generate the Prisma Client:
 
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```bash
+yarn generate
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+This ensures the Prisma Client is up-to-date with your database schema.
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+### Start All Services
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
+Run all applications in development mode:
+
+```bash
+yarn dev
 ```
 
-### Remote Caching
+This starts:
+- **Frontend** on `http://localhost:3000`
+- **API** on `http://localhost:3001`
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+### Start Individual Services
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+To run a specific service:
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+```bash
+# Frontend only
+cd apps/frontend && yarn dev
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+# API only
+cd apps/api && yarn dev
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🧪 Testing
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### Run All Tests
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+Run all unit tests across the monorepo:
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
+```bash
+yarn test
 ```
 
-## Useful Links
+### Run Tests for a Specific Package
 
-Learn more about the power of Turborepo:
+```bash
+# API tests
+cd apps/api && yarn test
 
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+```
+
+## 🎭 End-to-End Testing
+
+E2E tests require both the frontend and API to be running.
+
+### Setup
+
+1. Start the development servers in separate terminals:
+
+```bash
+# Terminal 1 - Start frontend
+cd apps/frontend && yarn dev
+
+# Terminal 2 - Start API
+cd apps/api && yarn dev
+
+# or start both
+yarn dev
+```
+
+2. Run E2E tests:
+
+**Headless mode (CI/CD):**
+```bash
+yarn e2e
+```
+
+**Interactive mode (development):**
+```bash
+yarn e2e:open
+```
+
+This opens the Cypress Test Runner where you can interactively run and debug tests.
+
+## 🗄️ Database
+
+### Migrations
+
+Generate and apply database migrations:
+
+```bash
+# From root
+yarn migrate
+
+# Or from prisma package
+cd packages/prisma && yarn migrate
+```
+
+This will:
+- Create a new migration if schema changes are detected
+- Apply pending migrations
+- Regenerate Prisma Client
+
+### Seed Database
+
+Populate the database with initial data:
+
+```bash
+cd packages/prisma && yarn seed
+```
+
+### Prisma Studio
+
+Open Prisma Studio to visually explore and edit your database:
+
+```bash
+cd packages/prisma && yarn studio
+```
+
+### Generate Prisma Client
+
+After schema changes, regenerate the Prisma Client:
+
+```bash
+cd packages/prisma && yarn generate
+```
+
+## 📦 Available Scripts
+
+### Root Level
+
+- `yarn build` - Build all packages and applications
+- `yarn dev` - Start all services in development mode
+- `yarn lint` - Lint all packages
+- `yarn test` - Run all tests
+- `yarn e2e` - Run E2E tests (headless)
+- `yarn e2e:open` - Run E2E tests (interactive)
+- `yarn check-types` - Type check all packages
+- `yarn migrate` - Run database migrations
+
+### Package-Specific Scripts
+
+Each package has its own scripts. Check individual `package.json` files for details.
+
+## 🛠️ Tech Stack
+
+- **Monorepo**: Turborepo
+- **Backend**: NestJS, Prisma, PostgreSQL
+- **Frontend**: Next.js 16, React 19, Tailwind CSS
+- **Testing**: Jest, Cypress
+- **Language**: TypeScript
+- **Package Manager**: Yarn Workspaces
+
+## 📝 Project Structure
+
+```
+formgenerate/
+├── apps/
+│   ├── api/              # NestJS backend
+│   ├── frontend/         # Next.js frontend
+│   └── frontend-e2e/     # Cypress E2E tests
+├── packages/
+│   ├── prisma/           # Database schema & migrations
+│   ├── nextFetch/        # Shared fetch utilities
+│   ├── eslint-config/    # Shared ESLint configs
+│   └── typescript-config/# Shared TypeScript configs
+└── turbo.json            # Turborepo configuration
+```
+
+## 🔧 Troubleshooting
+
+### Environment Variables Not Loading
+
+Make sure your `.env` file is in the root directory and contains all required variables. For Prisma commands, the `.env` file is automatically loaded from the root.
+
+### Port Already in Use
+
+If ports 3000 or 3001 are already in use, you can change them:
+- Frontend: Modify `apps/frontend/package.json` dev script
+- API: Set `API_PORT` in `.env` file
+
+### Database Connection Issues
+
+Ensure your PostgreSQL database is running and the `DATABASE_URL` in `.env` is correct. Test the connection with:
+
+```bash
+cd packages/prisma && yarn studio
+```
+
+## 📚 Additional Resources
+
+- [Turborepo Documentation](https://turbo.build/repo/docs)
+- [NestJS Documentation](https://docs.nestjs.com/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Prisma Documentation](https://www.prisma.io/docs)
+

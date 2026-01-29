@@ -1,0 +1,225 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+generator client {
+  provider     = "prisma-client"
+  output       = "./src/generated"
+  moduleFormat = "cjs"
+}
+
+generator clientTypes {
+  provider = "node ../../packages/prisma-client-types/generator-wrapper.js"
+  output   = "../../apps/frontend/src/app/_types/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Form {
+  id           String  @id @default(uuid())
+  key          String
+  name         String
+  version      Int
+  startStepId  String?
+  startStepKey String?
+  description  String?
+
+  isActive Boolean @default(true)
+
+  steps             FormStep[]
+  formOptionalRules FormOptionalRule[]
+  formSessions      FormSession[]
+
+  createdAt DateTime @default(now())
+
+  @@unique([id, version])
+  @@index([key])
+  @@map("forms")
+}
+
+model FormStep {
+  id     String   @id @default(uuid())
+  formId String
+  form   Form     @relation(fields: [formId, version], references: [id, version], onDelete: Cascade)
+  key    String
+  type   StepType
+  prompt String?
+
+  // number validation
+  minValue Float?
+  maxValue Float?
+
+  // computed step
+  computeExpr String?
+
+  nextStepKey String?
+  nextStepId  String?
+  nextStep    FormStep? @relation("NextStep", fields: [nextStepId], references: [id])
+
+  options  FormOption[]
+  branches FormBranchRule[] @relation("Branches")
+
+  createdAt       DateTime         @default(now())
+  formSteps       FormStep[]       @relation("NextStep")
+  branchNextSteps FormBranchRule[] @relation("BranchNextStep")
+
+  formSessions              FormSession[]
+  formAnswers               FormAnswer[]               @relation("FormAnswers")
+  formOptionalRuleKeyValues FormOptionalRuleKeyValue[]
+
+  version Int @default(1)
+
+  @@unique([formId, key, version])
+  @@index([formId, key, version])
+  @@map("form_steps")
+}
+
+model FormOption {
+  id     String   @id @default(uuid())
+  stepId String
+  step   FormStep @relation(fields: [stepId], references: [id], onDelete: Cascade)
+
+  value String
+  label String
+  order Int
+
+  @@index([stepId])
+  @@map("form_options")
+}
+
+model FormBranchRule {
+  id     String   @id @default(uuid())
+  stepId String
+  step   FormStep @relation("Branches", fields: [stepId], references: [id], onDelete: Cascade)
+
+  operator     Operator
+  compareValue Json
+
+  nextStepKey String?
+  nextStepId  String?
+  nextStep    FormStep? @relation("BranchNextStep", fields: [nextStepId], references: [id])
+
+  endResult EvaluationResult?
+  endReason String?
+
+  priority Int @default(0)
+
+  @@index([stepId])
+  @@map("form_branch_rules")
+}
+
+model FormOptionalRule {
+  id     String @id @default(uuid())
+  formId String
+  form   Form   @relation(fields: [formId], references: [id])
+
+  keyValues FormOptionalRuleKeyValue[]
+  endResult EvaluationResult?
+  endReason String?
+
+  priority Int @default(0)
+
+  @@index([formId])
+  @@map("form_optional_rules")
+}
+
+model FormOptionalRuleKeyValue {
+  id     String           @id @default(uuid())
+  ruleId String
+  rule   FormOptionalRule @relation(fields: [ruleId], references: [id])
+
+  stepKey String   @default("")
+  stepId  String
+  step    FormStep @relation(fields: [stepId], references: [id])
+  value   String
+
+  @@index([ruleId, stepId])
+  @@map("form_optional_rule_key_values")
+}
+
+model FormSession {
+  id     String @id @default(uuid())
+  formId String
+  form   Form   @relation(fields: [formId], references: [id])
+
+  currentStepId String
+  currentStep   FormStep @relation(fields: [currentStepId], references: [id], onDelete: Cascade)
+
+  status SessionStatus @default(IN_PROGRESS)
+
+  result        EvaluationResult?
+  resultReasons String[]
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  answers   FormAnswer[]
+
+  @@index([formId])
+  @@map("form_sessions")
+}
+
+model FormAnswer {
+  id String @id @default(uuid())
+
+  sessionId String
+  session   FormSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  stepId String
+  step   FormStep @relation("FormAnswers", fields: [stepId], references: [id])
+
+  // NUMBER | STRING | STRING[] | OBJECT
+  value Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sessionId, stepId])
+  @@index([sessionId, stepId])
+  @@map("form_answers")
+}
+
+enum SessionStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum StepType {
+  NUMBER
+  TEXT
+  RADIO
+  CHECKBOX
+  COMPUTED
+  FINAL
+}
+
+enum Operator {
+  EQ
+  NEQ
+  GT
+  GTE
+  LT
+  LTE
+  INCLUDES
+  NOT_INCLUDES
+  COUNT_GTE
+}
+
+enum EvaluationResult {
+  ELIGIBLE
+  INELIGIBLE
+  CLINICAL_REVIEW
+}

@@ -12,6 +12,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
+    "prebuild": "prisma generate",
     "build": "tsc -p tsconfig.lib.json && cp -r src/generated dist/generated",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",

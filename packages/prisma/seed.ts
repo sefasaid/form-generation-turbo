@@ -2,18 +2,31 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import dotenv from 'dotenv';
 import * as bcrypt from 'bcrypt'
 import path from 'path';
-
 import { PrismaClient } from './src/generated/client';
 import { StepType, Operator, EvaluationResult } from './src/generated/enums';
-
 dotenv.config({
     path: path.resolve(__dirname, "../../.env"),
 });
-
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
+    // Ensure database is up to date
+    console.log('🔄 Checking database migrations...')
+    try {
+        // Try to query a table to see if migrations are applied
+        await prisma.$queryRaw`SELECT 1 FROM "forms" LIMIT 1`
+        console.log('✅ Database schema is up to date')
+    } catch (error: any) {
+        if (error.code === 'P2022' || error.message?.includes('does not exist')) {
+            console.error('❌ Database migrations not applied!')
+            console.error('Please run: yarn migrate')
+            console.error('Or: cd packages/prisma && yarn migrate')
+            process.exit(1)
+        }
+        throw error
+    }
+
     // FORM
     const form = await prisma.form.create({
         data: {
@@ -25,14 +38,16 @@ async function main() {
         }
     })
 
-    const createStep = (data: any) =>
-        prisma.formStep.create({
+    const createStep = (data: any) => {
+        console.log(data)
+        return prisma.formStep.create({
             data: {
                 formId: form.id,
                 version: 1,
                 ...data
             }
         })
+    }
 
     // 1️⃣ Age
     const age = await createStep({
@@ -161,10 +176,10 @@ async function main() {
 
     for (let i = 0; i < flow.length - 1; i++) {
         await prisma.formStep.update({
-            where: { id: flow[i]?.step?.id },
+            where: { id: flow[i]?.step.id },
             data: {
                 nextStepKey: flow[i + 1]?.key,
-                nextStepId: flow[i + 1]?.step?.id
+                nextStepId: flow[i + 1]?.step.id
             }
         })
     }

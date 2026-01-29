@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "next build --webpack",
+    "prebuild": "test -f ../../apps/frontend/src/app/_types/generated/index.ts && echo 'Prisma types already generated, skipping...' || (test -f ../../turbo.json && turbo run generate --filter=@repo/prisma || (echo 'Generating prisma types directly...' && cd ../../packages/prisma && yarn generate))",
+    "build": "next build",
     "dev": "next dev",
     "lint": "eslint . --max-warnings 0",
     "start": "next start",

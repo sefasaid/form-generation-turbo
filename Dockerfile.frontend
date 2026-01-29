@@ -18,6 +18,8 @@ COPY packages/prisma-client-types/package.json ./packages/prisma-client-types/
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
+# Copy turbo.json for build scripts
+COPY turbo.json ./
 # Copy source files
 COPY apps/frontend ./apps/frontend
 COPY packages/prisma ./packages/prisma
@@ -26,8 +28,11 @@ COPY packages/eslint-config ./packages/eslint-config
 COPY packages/typescript-config ./packages/typescript-config
 COPY packages/prisma-client-types ./packages/prisma-client-types
 
-# Generate Prisma Client (needed for types)
-RUN cd packages/prisma && yarn generate || true
+# Generate Prisma Client and types (needed for frontend types)
+# DATABASE_URL is needed for prisma generate even if we don't connect
+ARG DATABASE_URL
+ENV DATABASE_URL=${DATABASE_URL:-postgresql://localhost:5432/dummy}
+RUN cd packages/prisma && yarn generate
 
 # Build the frontend
 # NEXT_PUBLIC_* variables must be set at build time

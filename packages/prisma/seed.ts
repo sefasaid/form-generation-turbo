@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import * as bcrypt from 'bcrypt'
 import path from 'path';
 import { PrismaClient } from './src/generated/client';
-import { StepType, Operator, EvaluationResult } from './src/generated/enums';
+import { StepType, Operator, EvaluationResult } from './src/generated';
 dotenv.config({
     path: path.resolve(__dirname, "../../.env"),
 });

@@ -36,6 +36,15 @@
     },
     "dev": {
       "dependsOn": [
+        "^build",
+        "^generate"
+      ],
+      "cache": false,
+      "persistent": true
+    },
+    "start": {
+      "dependsOn": [
+        "^build",
         "^generate"
       ],
       "cache": false,

@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "build": "nest build",
+    "predev": "turbo run build --filter=@repo/prisma",
     "dev": "nest start --watch",
+    "prestart": "turbo run build --filter=@repo/prisma",
     "start": "nest start",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit",

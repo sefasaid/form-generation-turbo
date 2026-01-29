@@ -12,9 +12,9 @@
     "baseUrl": "../../",
     "skipLibCheck": true,
     "paths": {
-      "@repo/prisma": ["packages/prisma/src"],
-      "@repo/prisma/*": ["packages/prisma/src/*"],
-      "@repo/prisma-module": ["packages/prisma/src"]
+      "@repo/prisma": ["packages/prisma/dist"],
+      "@repo/prisma/*": ["packages/prisma/dist/*"],
+      "@repo/prisma-module": ["packages/prisma/dist"]
     }
   },
   "include": ["src/**/*.ts"],
